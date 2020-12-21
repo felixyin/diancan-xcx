@@ -1,0 +1,25 @@
+<wxs src="../temp/imageF.wxs" module="imageF" />
+
+<template name="comment_list">
+
+  <view class="comment_item">
+    <!-- <text>{{commentItem.user_img_url}}</text> -->
+     <view class="comment_item_top">
+      <image src="{{imageF.filterFunc(commentItem.user_img_url,baseUrl,400,400)}}"/>
+      <text>{{commentItem.user_name}}</text>
+    </view>
+    <view class="comment_item_middle" wx:if="{{commentItem.content}}">
+      <text>{{commentItem.content}}</text>
+    </view>
+    <view class="comment_item_bottom clearfix">
+      <block wx:for="{{commentItem.img_list}}" wx:key="this" wx:for-item="imgItem" >
+         <image src="{{imageF.filterFunc(imgItem,baseUrl,400,400)}}" data-src="{{imageF.filterFunc(imgItem,baseUrl,400,400)}}"  data-list="{{commentItem.img_list}}" bindtap="showCommentImg"></image> 
+      </block>
+    </view> 
+    <view class="comment_item_time">
+        <text>{{commentItem.create_date}}</text>
+    </view>
+  </view>
+
+</template>
+

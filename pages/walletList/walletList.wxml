@@ -1,0 +1,37 @@
+<!--pages/walletList/walletList.wxml-->
+<view class='page'>
+  
+  <block wx:if="{{urlFlage=='log'}}">
+      <view class='log_list'>
+
+        <block wx:for="{{list}}" wx:key="">
+           <view class="log_item">
+              <view class='left'>
+                <view class='one'><text>{{item.content_1 || item.content}}</text></view>
+                <view class='two'><text>{{item.create_date}}</text></view>
+              </view>
+               <view class="right">
+                <text>￥{{item.account}}</text>
+              </view>
+           </view>
+        </block>
+      </view>
+
+  </block>
+
+  <block wx:if="{{urlFlage=='charge'}}">
+    <view class='log_list'>
+        <block wx:for="{{list}}" wx:key="">
+           <view class="log_item">
+              <view class='left'>
+                <view class='one'><text>{{item.content_1 || item.content}}</text></view>
+                <view class='two'><text>{{item.create_date}}</text></view>
+              </view>
+               <view class="right">
+                <text>￥{{item.account_3}}</text>
+              </view>
+           </view>
+        </block>
+    </view>
+  </block>
+</view>

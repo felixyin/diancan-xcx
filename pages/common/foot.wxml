@@ -1,0 +1,7 @@
+<template name="foot">
+    <!-- <view class="foot">
+        <navigator url='/pages/article/article?id=1&title=技术支持'>
+          <text>悟空点餐提供技术支持</text> 
+        </navigator>
+    </view> -->
+</template>

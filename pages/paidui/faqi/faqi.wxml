@@ -1,0 +1,23 @@
+<!--pages/paidui/faqi/faqi.wxml-->
+<view class="paidui_shop">排队门店：{{shop.title}}</view>
+
+<view class="paidui_body">
+  <view class="paidui_body_title">请选择就餐人数</view>
+  <view class="paidui_body_list">
+    
+    <view class="paidui_body_list_item {{curId==item.id?'cur':''}}" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseItemFunc">
+      <view class="paidui_body_list_item_t">{{item.title}}</view>
+      <view class="paidui_body_list_item_n">前面还有{{item.number}}人</view>
+    </view>
+
+  </view>
+
+  <view class="btn_area">
+    <van-button type="info" bindtap="apiPaiduiSave" loading="{{lock?true:false}}" disabled="{{lock?true:false}}" block>确认排队</van-button>
+  </view>
+</view>
+
+
+
+
+

@@ -1,0 +1,23 @@
+<!--pages/mendian/list/list.wxml-->
+<view class="mendian_list">
+  <view class="mendian_item" wx:for="{{list}}" wx:key="id">
+
+    <view class="left">
+      <view class="name">{{item.title}}</view>
+      <view class="address"><text>{{item.service}} {{item.address}}</text></view>
+      <view class="tag">
+        <van-tag plain class="mr10" type="warning">{{item.work_time}}</van-tag>
+        <van-tag plain class="mr10" type="warning">起送费：{{item.takeaway_moq}}元</van-tag>
+      </view>
+    </view>
+    
+    <view class="right">
+      <van-button type="info" round disabled="{{lock?true:false}}" size="small" data-id="{{item.id}}" bindtap="apiBind">选择</van-button>
+    </view>
+
+  </view>
+</view>
+
+
+
+

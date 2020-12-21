@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "van-button": "/dist/button/index"
+  },
+  "navigationBarTitleText": "发起预约桌位"
+}

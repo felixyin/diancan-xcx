@@ -1,0 +1,78 @@
+<template name="orderList">
+   <block wx:if="{{orderList.length>0}}">
+      <block wx:for="{{orderList}}" wx:key="">
+           <view class="orderList_item">
+              <navigator url="/pages/orderMsg/orderMsg?oid={{item.id}}">
+                  <view class="top">
+                    <text>订单号:{{item.code}}</text>
+                    
+                    <text class="redColor" wx:if="{{item.closed==1}}">已关闭</text>
+                    <block wx:else>
+                      <text class="redColor" wx:if="{{item.status==0}}">未付款</text>
+                      <text class="redColor" wx:elif="{{item.status==1}}">已付款</text>
+                      <text class="redColor" wx:elif="{{item.status==2}}">配送中</text>
+                      <text class="redColor" wx:elif="{{item.status==9}}">已完成</text>
+                      <text class="redColor" wx:elif="{{item.status==-1}}">已关闭</text>
+                    </block>
+                    
+                  </view>
+                  <view class="middle">
+                    <view class='order_middle_content'>
+                      <view class='order_middle_item'>
+                        <view class='left'>
+                          <text>时间:</text>
+                          <text>{{item.create_date}}</text>
+                        </view>
+                        <view class='right'>
+                          <text>人数:</text>
+                          <text>{{item.user_number}}</text>
+                        </view>
+                      </view>
+                      <view class='order_middle_item'>
+                        <view class='left'>
+                          <text>桌位:</text>
+                          <!--普通订单  -->
+                          <block wx:if="{{item.takeaway==0}}">
+                              <text>{{ item.tables_title }}</text>
+                          </block>
+                          <!--外卖订单  -->
+                          <block wx:elif="{{item.takeaway==1}}">
+                              <block wx:if="{{item.take_own==0}}">
+                                <text>{{ item.tables_title }}-配送</text>
+                              </block>
+                              <block wx:elif="{{item.take_own==1}}">
+                                <text>{{ item.tables_title }}-自提</text>
+                              </block>
+                              <block wx:elif="{{item.take_own==2}}">
+                                <text>{{ item.tables_title }}-预约</text>
+                              </block>
+                          </block>
+                        </view>
+                        <view class='right'>
+                          <text>订单总计:</text>
+                          <text>￥{{ item.grand_total}}</text>
+                        </view>
+                      </view>
+
+                    </view>
+                  </view>
+                  <view class="bottom">
+                    <view class="weui-panel__ft">
+                        <view class="weui-cell weui-cell_access weui-cell_link">
+                            <view class="weui-cell__bd">查看详情</view>
+                            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                        </view>
+                    </view>
+                  </view>
+              </navigator>
+          </view> 
+      </block>
+  </block>
+  <view wx:else>
+    <view class="list_empty">
+      <image src="../../image/empty_icon.png"></image>
+      <text>列表为空</text>
+    </view>
+  </view> 
+</template>
+

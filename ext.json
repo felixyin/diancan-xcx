@@ -1,0 +1,10 @@
+{
+  "extEnable":true,
+  "extAppid": "wx82a41fa4d6e054db",
+  "directCommit": false,
+  "ext": {
+    "wxUrl": "http://localhost:8088/api",
+    "bcode": "20071717481061544"
+  }
+}
+

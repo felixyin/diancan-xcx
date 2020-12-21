@@ -1,0 +1,84 @@
+<!--pages/user/user.wxml-->
+<import src="../common/userInform.wxml"></import> 
+<import src="../common/foot.wxml"></import>
+
+<wxs src="../temp/imageF.wxs" module="imageF" />
+
+
+<view class="page">
+  <view class="page_header">
+
+    <view class='user_inform_content' wx:if="{{userInfo.name=='微信用户'}}">
+      <image  src="{{imageF.filterFunc(userInfo.img_url,baseUrl)}}"></image>
+      <text>获取昵称和头像</text> 
+      <button class='UserInfo_btn' bindtap='canLogin' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+    </view>
+    <view class='user_inform_content' wx:else> 
+      <image  src="{{userInfo.img_url}}"></image>
+      <text>{{userInfo.name}}</text>  
+    </view>
+    
+  </view>
+  <view class="weui-panel user_panel">
+
+    <view class="weui-panel__bd">
+        <view class="weui-media-box weui-media-box_small-appmsg">
+            <view class="weui-cells weui-cells_in-small-appmsg">
+                <navigator url="/pages/wallet/wallet" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                    <view class="weui-cell__hd"><image src="../../image/youhui_icon.png" /></view>
+                    <view class="weui-cell__bd weui-cell_primary">
+                        <view>我的钱包</view>
+                    </view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                </navigator>
+            </view>
+        </view>
+    </view>
+  </view>
+
+  <!-- <view class="weui-panel user_panel">
+    <view class="weui-panel__bd">
+        <view class="weui-media-box weui-media-box_small-appmsg">
+            <view class="weui-cells weui-cells_in-small-appmsg">
+                <navigator url="/pages/aboutUs/aboutUs" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                    <view class="weui-cell__hd"><image src="../../image/about_icon.png" /></view>
+                    <view class="weui-cell__bd weui-cell_primary">
+                        <view>关于我们</view>
+                    </view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                </navigator>
+                <navigator url="/pages/contactUs/contactUs" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                    <view class="weui-cell__hd"><image src="../../image/jianyi_icon.png" /></view>
+                    <view class="weui-cell__bd weui-cell_primary">
+                        <view>联系我们</view>
+                    </view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                </navigator>
+
+            </view>
+        </view>
+    </view>
+  </view> -->
+
+  <view class="weui-panel user_panel">
+
+    <view class="weui-panel__bd">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cells weui-cells_in-small-appmsg">
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <button open-type="contact" class='kefu_btn'>客服</button>
+                <view class="weui-cell__hd"><image src="../../image/kefu_u_icon.png"/></view>
+                <view class="weui-cell__bd weui-cell_primary">
+                    <view>联系客服</view>
+                </view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+<view style='height:20px'></view>
+
+  <template is="foot"></template>
+</view>

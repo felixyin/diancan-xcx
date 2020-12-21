@@ -1,0 +1,89 @@
+<!--pages/address/address.wxml-->
+<view class="weui-cells__title">个人信息</view>
+
+<view class="weui-cells weui-cells_after-title">
+
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="weui-label">姓名</view>
+        </view>
+        <view class="weui-cell__bd">
+            <input class="weui-input" bindinput='bindKeyInput' data-key='take_name' value="{{take_name}}" placeholder="请输入姓名"/>
+        </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="weui-label">电话</view>
+        </view>
+        <view class="weui-cell__bd">
+            <input class="weui-input" type='number' bindinput='bindKeyInput' value="{{take_mobile}}" data-key='take_mobile' placeholder="请输入电话"/>
+        </view>
+    </view>
+</view>
+
+<!--预约订单  -->
+<block wx:if="{{appointment}}">
+
+  <view class="weui-cells__title">选择预约时间</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">时间</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker mode="time" value="{{take_date}}" bindchange="bindTimeChange">
+                <view class="weui-select weui-select_in-select-after">{{take_date}}</view>
+            </picker>
+        </view>
+    </view>
+  </view>
+
+</block>
+
+<!--外卖订单  -->
+<block wx:else>
+
+  <block wx:if="{{take_own==0}}">
+    <view class="weui-cells__title">详细地址</view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <view class="weui-cell">
+          <view class="weui-cell__bd">
+              <view class="choose_area_map_content">
+                <textarea class="weui-textarea" data-key="take_address" value="{{take_address}}" bindinput="bindKeyInput" value="{{take_address}}" placeholder="详细地址" style="height:4.2em" />
+                
+                <!-- bindtap="chooseArea" -->
+                <view class="choose_area_map" wx:if="{{chooseLocation}}" bindtap="chooseArea">
+                  <image src="/image/dw_icon.png"></image>
+                </view>
+                <view class="choose_area_map" wx:else>
+                  <image src="/image/dw_icon.png"></image>
+                  <button open-type="openSetting"  bindopensetting="getArea">获取</button>
+                </view>
+              </view>
+          </view>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{take_own==1}}">
+    <view class="weui-cells__title">选择自提时间</view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+              <view class="weui-label">时间</view>
+          </view>
+          <view class="weui-cell__bd">
+              <picker mode="time" value="{{take_date}}" bindchange="bindTimeChange">
+                  <view class="weui-select weui-select_in-select-after">{{take_date}}</view>
+              </picker>
+          </view>
+      </view>
+    </view>
+  </block>
+  
+</block>
+
+<view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="saveAddress">确定</button>
+</view>

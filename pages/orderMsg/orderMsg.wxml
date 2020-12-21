@@ -1,0 +1,283 @@
+<!--pages/orderMsg/orderMsg.wxml-->
+<import src="../common/userInform.wxml"></import> 
+<import src="../common/product_list.wxml"></import> 
+<import src="../common/addressItem.wxml"></import>
+<import src="../common/foot.wxml"></import>
+
+<view class="top_tip" wx:if="{{orders.closed}}">
+  <text class="redColor">订单已关闭，购买请重新下单</text>
+</view>
+<block wx:else>
+  <!--订单未付款  -->
+  <block wx:if="{{orders.status == 0}}">
+    <!--外卖  -->
+    <block  wx:if="{{orders.takeaway==1}}">
+      <view class="top_tip">
+        <text class="redColor" wx:if="{{orders.take_own==0}}">您的订单未付款，支付后才会配送</text>
+        <text class="redColor" wx:if="{{orders.take_own==1}}">您的订单未付款，支付后才能取餐</text>
+      </view>
+    </block>
+    <!--普通订单-预约  -->
+    <block wx:else>
+      <!--预约  -->
+      <view class="top_tip" wx:if="{{orders.appointment==1}}">
+        <text class="redColor" wx:if="{{orders.take_own==0}}">您的订单未付款，支付后才能预约</text>
+      </view>
+    </block>
+    
+  </block>
+  <!--订单已付款  -->
+  <block wx:if="{{orders.status == 1}}">
+    <view class="top_tip" wx:if="{{orders.takeaway==1}}">
+      <text class="redColor" wx:if="{{orders.take_own==0}}">等待接单，请耐心等待</text>
+      <text class="redColor" wx:if="{{orders.take_own==1}}">创建自提订单成功，请准时取餐</text>
+    </view>
+  </block>
+  <!--待配送  -->
+  <block wx:if="{{orders.status == 2}}">
+    <view class="top_tip">
+      <text class="redColor">商家正在安排配送，请耐心等待</text>
+    </view>
+  </block>
+  <!--已配送  -->
+  <block wx:if="{{orders.status == 3}}">
+    <view class="top_tip">
+      <text class="redColor">商家已安排配送，请耐心等待</text>
+    </view>
+  </block>
+</block>
+
+
+
+<view class="page">
+    <!--非外卖  -->
+  <block wx:if="{{orders.takeaway==0}}">
+
+    <!--预约点餐 -->
+    <block wx:if="{{orders.appointment==1}}">
+      <template is="addressItem" data="{{take_name:orders.take_name,take_mobile:orders.take_mobile,appointment:orders.appointment,take_date:orders.take_date,take_own:1}}"></template>
+    </block>
+    <!--普通点餐 -->
+    <block wx:else>
+      <view class="page_header">
+          <template is="userInform" data="{{userInfo:userInfo,baseUrl:baseUrl,showRight:showRight,tables:tables,ordersStatus:orders.status,tableIndex:tableIndex,tables_list:tables_list}}"></template>
+      </view>
+    </block>
+
+  </block>
+  <!--外卖 -->
+  <block wx:else>
+    <template is="addressItem" data="{{take_name:orders.take_name,take_mobile:orders.take_mobile,take_address:orders.take_address,take_date:orders.take_date,take_own:orders.take_own}}"></template>
+  </block>
+   <!--备注 -->
+  <block wx:if="{{orders.remark}}">
+    <view class="weui-cells__title">菜品备注</view>
+    <view class='beizhu_orders'>
+      <text>{{orders.remark}}</text>
+    </view>
+  </block>
+
+  <view class="weui-cells__title">菜品列表</view>
+  <view class='order_list'>
+    <template is="orderMsg_product_list" data="{{dishes_list:dishes_list,baseUrl:baseUrl,orders:orders}}"></template>
+  </view>
+  <view class="weui-cells weui-cells_after-title fontsize32">
+
+    <view class="weui-cell" wx:if="{{orders.tableware_price}}">
+        <view class="weui-cell__bd">餐具费</view>
+        <view class="weui-cell__ft">+￥{{orders.tableware_price}}</view>
+    </view>
+
+    <!--非外卖订单  -->
+    <block wx:if="{{orders.takeaway==0}}">
+      <view class="weui-cell" wx:if="{{orders.tables_price}}">
+        <view class="weui-cell__bd">餐桌费</view>
+        <view class="weui-cell__ft">+￥{{orders.tables_price}}</view>
+      </view>
+    </block>
+    
+    <block wx:if="{{orders.takeaway==1}}">
+      <view class="weui-cell" wx:if="{{orders.take_own==0}}">
+          <view class="weui-cell__bd">配送费</view>
+          <view class="weui-cell__ft">+￥{{orders.takeaway_price}}</view>
+      </view>
+    </block>
+    <view class="weui-cell">
+        <view class="weui-cell__bd">满减优惠</view>
+        <view class="weui-cell__ft">-￥{{orders.coupon_saving}}</view>
+    </view>
+    <view class="weui-cell">
+        <view class="weui-cell__bd">商品小计</view>
+        <view class="weui-cell__ft">￥{{orders.subtotal}}</view>
+    </view>
+    <view class="weui-cell">
+        <view class="weui-cell__bd">订单总计</view>
+        <view class="weui-cell__ft tip_color">￥{{orders.grand_total}}</view>
+    </view>
+
+  </view>
+
+  <view class="weui-cells__title">订单信息</view>
+    <view class="weui-cells weui-cells_after-title fontsize32">
+
+      <view class="weui-cell" wx:if="{{orders.closed}}">
+        <view class="weui-cell__bd">订单状态</view>
+        <view class="weui-cell__ft tip_color">订单已关闭</view>
+      </view>
+
+      <block wx:else>
+        <block wx:if="{{orders.status == 0}}">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">订单状态</view>
+            <view class="weui-cell__ft tip_color">未付款</view>
+          </view>
+        </block>
+        <block wx:elif="{{orders.status == 1}}">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">订单状态</view>
+            <view class="weui-cell__ft tip_color">已付款</view>
+          </view>
+        </block>
+        <block wx:elif="{{orders.status == 2}}">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">订单状态</view>
+            <view class="weui-cell__ft tip_color">配送中</view>
+          </view>
+        </block>
+        <block wx:elif="{{orders.status == 9}}">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">订单状态</view>
+            <view class="weui-cell__ft tip_color">已完成</view>
+          </view>
+        </block>
+      </block>
+  
+      <view class="weui-cell" wx:if="{{orders.payment == 0}}">
+          <view class="weui-cell__bd">支付方式</view>
+          <view class="weui-cell__ft">会员</view>
+      </view>
+      <view class="weui-cell" wx:if="{{orders.payment == 1}}">
+          <view class="weui-cell__bd">支付方式</view>
+          <view class="weui-cell__ft">微信</view>
+      </view>
+      <view class="weui-cell" wx:if="{{orders.payment == 2}}">
+          <view class="weui-cell__bd">支付方式</view>
+          <view class="weui-cell__ft">支付宝</view>
+      </view>
+      <view class="weui-cell" wx:if="{{orders.payment == 3}}">
+          <view class="weui-cell__bd">支付方式</view>
+          <view class="weui-cell__ft">现金</view>
+      </view>
+      <view class="weui-cell" wx:if="{{orders.payment == 4}}">
+          <view class="weui-cell__bd">支付方式</view>
+          <view class="weui-cell__ft">小程序支付</view>
+      </view>
+      <view class="weui-cell" wx:if="{{orders.payment == 5}}">
+          <view class="weui-cell__bd">支付方式</view>
+          <view class="weui-cell__ft">POS支付</view>
+      </view>
+
+      <view class="weui-cell">
+          <view class="weui-cell__bd">订单编号</view>
+          <view class="weui-cell__ft">{{orders.code}}</view>
+      </view>
+      <view class="weui-cell">
+          <view class="weui-cell__bd">下单时间</view>
+          <view class="weui-cell__ft">{{orders.create_date}}</view>
+      </view>
+      <block wx:if="{{orders.payment_date}}">
+        <view class="weui-cell">
+            <view class="weui-cell__bd">付款时间</view>
+            <view class="weui-cell__ft">{{orders.payment_date}}</view>
+        </view>
+      </block>
+  </view>
+
+  <block wx:if="{{orders.closed==0}}">
+    <!--底部btn 非外卖-->
+    <block wx:if="{{orders.takeaway==0}}">
+      <!--未付款  -->
+      <block wx:if="{{orders.status==0}}">
+
+        <view class='cart_bottom cart_bottom_white'>
+        
+          <view class="cart_bottom_content cart-leftnone">
+            <view class='cart_total_price_wrap'>
+              <view class='cart_total_price'>
+                <text class='tip'>总计:</text>
+                <text class='price'>￥{{orders.grand_total}}</text>
+              </view>
+            </view>
+            <!-- appointment 不是预约订单 -->
+            <view class='cart_bottom_right btn right_two' bindtap='checkJiacan' wx:if="{{orders.appointment!=1}}">
+                <text>加餐</text>
+            </view>
+            <view class='cart_bottom_right btn'>
+              <navigator url='/pages/wxpay/wxpay?oid={{orders.id}}'>
+                <text>立即支付</text>
+              </navigator>
+            </view>
+          </view>
+        </view>
+      </block>
+      <!--已付款 -->
+      <block wx:if="{{orders.status==1}}">
+          <!--预约单  -->
+          <block wx:if="{{orders.appointment==1}}">
+            <view class='cart_bottom cart_bottom_white'>
+              <view class="cart_bottom_content cart-leftnone">
+                <view class='cart_total_price_wrap'>
+                  <view class='cart_total_price'>
+                    <text class='tip'>总计:</text>
+                    <text class='price'>￥{{orders.grand_total}}</text>
+                  </view>
+                </view>
+                <view class='cart_bottom_right btn btn-color-hui' bindtap='callTel' data-tel="{{shop.service}}"><text>取消订单</text></view>
+              </view>
+            </view>
+          </block>
+      </block>
+
+    </block>
+    <!--外卖订单  -->
+    <block wx:else>
+
+      <block wx:if="{{orders.status==0}}">
+        <view class='cart_bottom cart_bottom_white'>
+          <view class="cart_bottom_content cart-leftnone">
+            <view class='cart_total_price_wrap'>
+              <view class='cart_total_price'>
+                <text class='tip'>总计:</text>
+                <text class='price'>￥{{orders.grand_total}}</text>
+              </view>
+            </view>
+            <view class='cart_bottom_right btn'>
+              <navigator url='/pages/wxpay/wxpay?oid={{orders.id}}'>
+                <text>立即支付</text>
+              </navigator>
+            </view>
+          </view>
+        </view>
+      </block>
+      <!--外卖已付款 配送中  -->
+      <block wx:if="{{orders.status==1 || orders.status==2}}">
+        <view class='cart_bottom cart_bottom_white'>
+          <view class="cart_bottom_content cart-leftnone">
+            <view class='cart_total_price_wrap'>
+              <view class='cart_total_price'>
+                <text class='tip'>总计:</text>
+                <text class='price'>￥{{orders.grand_total}}</text>
+              </view>
+            </view>
+            <view class='cart_bottom_right btn btn-color-hui' bindtap='callTel' data-tel="{{shop.service}}"><text>取消订单</text></view>
+          </view>
+        </view>
+      </block>
+
+    </block>
+  </block>
+
+</view>
+<template is="foot"></template>
+<view class='jiange100'></view>
+

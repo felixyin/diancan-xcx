@@ -1,0 +1,19 @@
+<!--pages/commentList/commentList.wxml-->
+<import src="../common/comment.wxml"></import>
+
+<view class='page'>
+  <!--发布新评价  -->
+  <navigator url='/pages/commentAdd/commentAdd'>
+    <view class='comment_title'>
+      <text>发布新评价</text>
+      <image class='right_icon' src='/image/right_icon.png'></image>
+    </view>
+  </navigator>
+
+  <view class='commentList' wx:if="{{commentList.length>0}}">
+    <block wx:for="{{commentList}}" wx:key="">
+        <template is="comment_list" data="{{commentItem:item,baseUrl:baseUrl}}"></template>
+    </block>
+  </view>
+
+</view>

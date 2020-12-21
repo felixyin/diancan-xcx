@@ -1,0 +1,46 @@
+<template name="addressItem">
+
+  <view class="show_address_content {{showRight}}" hover-class="navigator-hover" bindtap="updateAddress">
+      <view class='icon'>
+        <block wx:if="{{take_own==0}}">
+          <image src="/image/dw_min_icon.png"></image>
+        </block>
+        <block wx:else>
+            <image src="/image/time_min_icon.png"></image>
+        </block>
+      </view>
+
+      <view class='show_address_text'>
+
+        <view class="top">
+            <block wx:if="{{appointment}}">
+              <text wx:if="{{take_date}}">预约时间：{{take_date}}</text>
+              <text wx:else>点击填写预约时间</text>
+            </block>
+            <block wx:else>
+              <!--配送  -->
+              <block wx:if="{{take_own==0}}">
+                <text wx:if="{{take_address}}">{{take_address}}</text>
+                <text wx:else>点击填写收货地址</text>
+              </block>
+              <!--自提  -->
+              <block wx:elif="{{take_own==1}}">
+                <text wx:if="{{take_date}}">自提时间：{{take_date}}</text>
+                <text wx:else>点击填写自提时间</text>
+              </block>
+              <block wx:else>
+                <text>请先选择配送方式</text>
+              </block>
+            </block>
+        </view>
+        
+        <view class="bottom">
+          <text class="title">{{take_name}}</text>
+          <text class="tel">{{take_mobile}}</text>
+        </view>
+
+      </view>
+
+  </view>
+
+</template>

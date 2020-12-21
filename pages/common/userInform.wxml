@@ -1,0 +1,26 @@
+<template name="userInform">
+
+  <view class="header_inform">
+    <navigator url='/pages/index/index' open-type="switchTab">
+      <view class='header_inform_left'>
+        <image src='/image/goHome.png'></image>
+        <text>返回首页</text>
+      </view>
+    </navigator>
+    <view class="header_inform_right" wx:if="{{showRight}}">
+      <text>桌位：{{tables.title}}</text>
+      <!--查看订单 -->
+      <block wx:if="{{oid}}">
+          <view class='change_tables right'>
+            <!-- <navigator url='/pages/orderMsg/orderMsg?oid={{oid}}&see=1'> -->
+              <text class='border_shock' bindtap='seeOrderMsg'>查看已点菜品</text>
+            <!-- </navigator> -->
+          </view>
+      </block>
+      
+    </view>
+
+  </view>
+
+</template>
+

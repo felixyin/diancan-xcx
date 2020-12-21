@@ -1,0 +1,165 @@
+<!--pages/createOrderMsg/createOrderMsg.wxml-->
+<import src="../common/product_list.wxml"></import> 
+<import src="../common/popup.wxml"></import> 
+<import src="../common/addressItem.wxml"></import>
+<import src="../common/foot.wxml"></import>
+
+
+<view class="page">
+  <!-- 配送方式-->
+  <block wx:if="{{takeaway}}">
+    <!--外卖订单  -->
+    <view class="payMethod" wx:if="{{!appointment}}">
+        <view class="payMethod_top">
+          <view class="title">
+            <image mode="aspectFit" src="/image/dfh_icon.png"></image>
+            <text>配送方式</text>
+          </view>
+        </view> 
+        <view class="payMethod_bottom">
+
+          <block wx:if="{{takeaway_distribution_status}}">
+            <view class="payMethod_item {{peisongCur}}" data-method="0" bindtap="toggleTakeOwn">
+              <text>配送</text>
+            </view>
+          </block>
+          
+          <block wx:if="{{takeaway_own_status}}">
+            <view class="payMethod_item {{zitiCur}}" data-method="1" bindtap="toggleTakeOwn">
+              <text>自提</text>
+            </view>
+          </block>
+
+        </view>
+    </view>
+
+    <!--填写地址  -->
+    <view class="weui-cells__title">填写用户信息</view>
+    <block wx:if="{{!take_name}}">
+      <view class="pay_order_address">
+        <navigator url='/pages/address/address?take_own={{take_own}}&appointment={{appointment}}'>
+          <view class="add_address_icon showRight">
+            <image src="/image/add_address_icon.jpg" mode="aspectFit"></image>
+            <text>填写用户信息</text>
+          </view>
+        </navigator>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="pay_order_address">
+        <template is="addressItem" data="{{take_name:take_name,take_mobile:take_mobile,take_address:take_address,showRight:showRight,take_own:take_own,take_date:take_date,appointment:appointment}}"></template> 
+      </view>
+    </block>
+  </block>
+  <!--产品列表  -->
+  <view class="weui-cells__title">菜品列表</view>
+  <view class='borderBottom'></view>
+  <view class='order_list'>
+    <template is="quren_dishes_list" data="{{dishes_list:shopping_cart,baseUrl:baseUrl}}"></template>
+  </view>
+  <view class='borderBottom'></view>
+
+  <view class="weui-cells__title">人数及备注</view>
+  <view class="weui-cells weui-cells_after-title fontsize32">
+     <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">用餐人数</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker  bindchange="changeUserNumber" value="{{user_number_index}}" range="{{userList}}">
+                <view class="weui-select weui-select_in-select-after text_right">{{user_number || '便于商家提供餐具'}}</view>
+            </picker>
+        </view>
+    </view>
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='showPopup'>
+        <view class="weui-cell__bd">订单备注</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">
+          <view class="overHidden">{{remark || '口味，偏好等'}}</view>
+        </view>
+    </view>
+  </view>
+  
+  <view class="weui-cells__title">辅助信息</view>
+  <view class="weui-cells weui-cells_after-title fontsize32">
+    
+    <!--外卖  -->
+    <block wx:if="{{takeaway}}">
+      <!--外卖订单  -->
+      <block wx:if="{{!appointment}}">
+        <block wx:if="{{take_own==0}}">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">配送费</view>
+            <view class="weui-cell__ft">+￥{{takeaway_price}}</view>
+          </view>
+        </block>
+      </block>
+      <!-- 预约 -->
+      <view class="weui-cell" wx:else>
+        <view class="weui-cell__bd">餐具费</view>
+        <view class="weui-cell__ft">+￥{{tableware_price}}/每人</view>
+      </view>
+    </block>
+    <!--非外卖  -->
+    <block wx:else>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">餐具费</view>
+        <view class="weui-cell__ft">+￥{{tableware_price}}/每人</view>
+      </view>
+      
+      <!--餐桌费  -->
+      <view class="weui-cell">
+        <view class="weui-cell__bd">餐桌费</view>
+        <view class="weui-cell__ft">+￥{{tables.price}}</view>
+      </view>
+    </block>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">满减优惠</view>
+      <view class="weui-cell__ft">-￥{{coupon_saving}}</view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">商品小计</view>
+      <view class="weui-cell__ft fontW">￥{{subtotal}}</view>
+    </view>
+  </view>
+
+  <view class='cart_bottom'>
+    <view class='cart_bottom_content'>
+
+      <view class='cart_total_price'>
+        <view class='cart_total_price_content'>
+          <text class='one'>待支付￥{{showGrand_total}}</text>
+        </view>
+      </view>
+      <block wx:if="{{takeaway}}">
+
+        <block wx:if="{{takeaway_distribution_status||takeaway_own_status || appointment}}">
+          <view class='cart_bottom_right btn' bindtap='createTakeaWayOrder'>
+            <text>创建订单</text>
+          </view>
+        </block>
+
+        <block wx:else>
+          <view class='cart_bottom_right btn disable'>
+            <text>无法创建</text>
+          </view>
+        </block>
+        
+      </block>
+      <block wx:else>
+          <view class='cart_bottom_right btn' bindtap='createOrder'>
+            <text>创建订单</text>
+          </view>
+      </block>
+
+    </view>
+  </view>
+
+</view>
+<template is="foot"></template>
+<view class='jiange100'></view>
+<!--添加备注弹窗  -->
+<block wx:if="{{popupShow}}">
+  <template is="add_remark" data="{{remarkFlage:remarkFlage,baseUrl:baseUrl}}"></template>
+</block>
+

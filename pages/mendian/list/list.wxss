@@ -1,0 +1,41 @@
+/* pages/mendian/list/list.wxss */
+.mendian_list {
+  background: #fff;
+  padding-top: 30rpx;
+}
+.mendian_item {
+  position: relative;
+  display: block;
+  padding:0 30rpx 20rpx 30rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mendian_item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 1px #eee solid;
+  left: 30rpx;
+  right: 0;
+  bottom: 0;
+}
+.mendian_item:last-child::after {
+  border-bottom: none;
+}
+.mendian_item .name {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.mendian_item .address {
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}
+.mr10 {
+  margin-right: 10rpx;
+}
+
+
+
+
+

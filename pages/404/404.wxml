@@ -1,0 +1,12 @@
+<!--404.wxml-->
+<view class="status404">
+  <view class="status404_content">
+    <icon type="warn" size="80" />
+    <text>页面出错了,返回首页试试</text>
+  </view>
+  <view class="page__bd page__bd_spacing">
+    <navigator url="/pages/index/index" open-type="reLaunch">
+      <button class="weui-btn" type="primary">返回首页</button>
+    </navigator>
+  </view>
+</view>
